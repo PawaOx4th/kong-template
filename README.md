@@ -10,4 +10,4 @@ This repository made for build simple of Kong with docker.
 * [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Contributor
-<a href="https://github.com/Harin3Bone"><img src="https://img.shields.io/badge/Harin3Bone-181717?style=flat&logo=github&logoColor=ffffff"></a>
+Create by 😎 👉 <a href="https://github.com/Harin3Bone"><img src="https://img.shields.io/badge/Harin3Bone-181717?style=flat&logo=github&logoColor=ffffff"></a>
