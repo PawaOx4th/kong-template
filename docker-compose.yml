@@ -5,12 +5,12 @@ services:
     image: postgres:13-alpine
     container_name: kong-db
     ports:
-      - '${PSQL_PORT}:5432'
+      - '${PSQL_PORT:-5432}:5432'
     environment:
-      POSTGRES_DB: ${PSQL_DB}
-      POSTGRES_USER: ${PSQL_USER}
-      POSTGRES_PASSWORD: ${PSQL_PSWD}
-      TZ: ${TIMEZONE}
+      POSTGRES_DB: ${PSQL_DB:-kong}
+      POSTGRES_USER: ${PSQL_USER:-kong}
+      POSTGRES_PASSWORD: ${PSQL_PSWD:-kong}
+      TZ: ${TIMEZONE:-"Asia/Bangkok"}
     healthcheck:
       test: ['CMD', 'pg_isready -U kong']
       interval: 30s
@@ -31,11 +31,11 @@ services:
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-db
-      KONG_PG_DATABASE: ${PSQL_DB}
-      KONG_PG_USER: ${PSQL_USER}
-      KONG_PG_PASSWORD: ${PSQL_PSWD}
+      KONG_PG_DATABASE: ${PSQL_DB:-kong}
+      KONG_PG_USER: ${PSQL_USER:-kong}
+      KONG_PG_PASSWORD: ${PSQL_PSWD:-kong}
     networks:
-      - kong_net
+      - kong_netPSQL_DB
     restart: on-failure
 
   kong-migrations-up:
@@ -67,21 +67,21 @@ services:
       KONG_ADMIN_LISTEN: '0.0.0.0:8001, 0.0.0.0:8444 ssl http2'
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-db
-      KONG_PG_DATABASE: ${PSQL_DB}
-      KONG_PG_USER: ${PSQL_USER}
-      KONG_PG_PASSWORD: ${PSQL_PSWD}
+      KONG_PG_DATABASE: ${PSQL_DB:-kong}
+      KONG_PG_USER: ${PSQL_USER:-kong}
+      KONG_PG_PASSWORD: ${PSQL_PSWD:-kong}
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_PREFIX: /var/run/kong
       KONG_LUA_SSL_TRUSTED_CERTIFICATE: /etc/ssl/certs/ca-certificates.crt
-      TZ: ${TIMEZONE}
+      TZ: ${TIMEZONE:-"Asia/Bangkok"}
     networks:
       - kong_net
     ports:
-      - '${KONG_HTTP}:8000'
-      - '${KONG_HTTPS}:8443'
-      - '${KONG_ADMIN}:8001'
-      - '${KONG_MANAGE}:8444'
+      - '${KONG_HTTP:-80}:8000'
+      - '${KONG_HTTPS:-443}:8443'
+      - '${KONG_ADMIN:-8001}:8001'
+      - '${KONG_MANAGE:-8444}:8444'
     healthcheck:
       test: ['CMD', 'kong', 'health']
       interval: 10s
@@ -101,10 +101,10 @@ services:
     networks:
       - kong_net
     ports:
-      - '${KONGA_PORT}:1337'
+      - '${KONGA_PORT:-1337}:1337'
     environment:
-      TZ: ${TIMEZONE}
-      NODE_ENV: ${NODE}
+      TZ: ${TIMEZONE:-"Asia/Bangkok"}
+      NODE_ENV: ${NODE:-development}
     links:
       - kong:kong
     restart: always
