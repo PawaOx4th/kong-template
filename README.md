@@ -11,3 +11,4 @@ This repository made for build simple of Kong with docker.
 
 ## Contributor
 Create by 😎 👉 <a href="https://github.com/Harin3Bone"><img src="https://img.shields.io/badge/Harin3Bone-181717?style=flat&logo=github&logoColor=ffffff"></a>
+<a href="https://github.com/PawaOx4th"><img src="https://img.shields.io/badge/PawaOx4th-181717?style=flat&logo=github&logoColor=ffffff"></a>
