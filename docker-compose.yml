@@ -1,18 +1,18 @@
-version: '3.8'
+version: "3.8"
 
 services:
   kong-db:
     image: postgres:13-alpine
     container_name: kong-db
     ports:
-      - '${PSQL_PORT:-5432}:5432'
+      - "${PSQL_PORT:-5432}:5432"
     environment:
       POSTGRES_DB: ${PSQL_DB:-kong}
       POSTGRES_USER: ${PSQL_USER:-kong}
       POSTGRES_PASSWORD: ${PSQL_PSWD:-kong}
       TZ: ${TIMEZONE:-"Asia/Bangkok"}
     healthcheck:
-      test: ['CMD', 'pg_isready -U kong']
+      test: ["CMD", "pg_isready -U kong"]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -35,7 +35,7 @@ services:
       KONG_PG_USER: ${PSQL_USER:-kong}
       KONG_PG_PASSWORD: ${PSQL_PSWD:-kong}
     networks:
-      - kong_netPSQL_DB
+      - kong_net
     restart: on-failure
 
   kong-migrations-up:
@@ -63,8 +63,8 @@ services:
     environment:
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_PROXY_LISTEN: '0.0.0.0:8000, 0.0.0.0:8443 ssl http2'
-      KONG_ADMIN_LISTEN: '0.0.0.0:8001, 0.0.0.0:8444 ssl http2'
+      KONG_PROXY_LISTEN: "0.0.0.0:8000, 0.0.0.0:8443 ssl http2"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl http2"
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong-db
       KONG_PG_DATABASE: ${PSQL_DB:-kong}
@@ -78,12 +78,12 @@ services:
     networks:
       - kong_net
     ports:
-      - '${KONG_HTTP:-80}:8000'
-      - '${KONG_HTTPS:-443}:8443'
-      - '${KONG_ADMIN:-8001}:8001'
-      - '${KONG_MANAGE:-8444}:8444'
+      - "${KONG_HTTP:-80}:8000"
+      - "${KONG_HTTPS:-443}:8443"
+      - "${KONG_ADMIN:-8001}:8001"
+      - "${KONG_MANAGE:-8444}:8444"
     healthcheck:
-      test: ['CMD', 'kong', 'health']
+      test: ["CMD", "kong", "health"]
       interval: 10s
       timeout: 10s
       retries: 10
@@ -101,7 +101,7 @@ services:
     networks:
       - kong_net
     ports:
-      - '${KONGA_PORT:-1337}:1337'
+      - "${KONGA_PORT:-1337}:1337"
     environment:
       TZ: ${TIMEZONE:-"Asia/Bangkok"}
       NODE_ENV: ${NODE:-development}
